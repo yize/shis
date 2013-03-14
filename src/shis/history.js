@@ -17,14 +17,14 @@ KISSY.add('shis/history', function (S, surl) {
     var push = function (url) {
         var l = surl.getUrl().pathname;
         if (isSupportState) {
-            if (!isSame(url1, url)){
+            if (!isSame(l, url)) {
                 history.pushState({url: url}, null, url);
             }
             handle(url);
         } else {
-            if (!isSame(l, url)){
+            if (!isSame(l, url)) {
                 location.hash = '#!' + url;
-            }else{
+            } else {
                 handle(url);
             }
         }
@@ -43,6 +43,7 @@ KISSY.add('shis/history', function (S, surl) {
         if (isSupportState) {
             $(window).on('popstate', function (ev) {
                 var state = ev.originalEvent.state;
+                console.log('onpopstate',state);
                 if (state && state.url) {
                     handle(state.url);
                 }
@@ -71,10 +72,10 @@ KISSY.add('shis/history', function (S, surl) {
     var timer;
 
     var loading = function (callback) {
-        timer = S.later(function(){
-            container.addClass(LOADINGCLS);
-            container.html(LOADINGMSG);
-        },100);
+        timer = S.later(function () {
+            container && container.addClass(LOADINGCLS);
+            container && container.html(LOADINGMSG);
+        }, 100);
         callback && callback.call(this);
     };
 
@@ -113,12 +114,14 @@ KISSY.add('shis/history', function (S, surl) {
             type: 'get',
             datatype: 'html',
             success: function (data) {
-                timer && (function(){
+                timer && (function () {
                     timer.cancel();
                 })();
-                S.log(data);
-                container.removeClass('ks-loading');
-                container.html(data);
+
+                if (container) {
+                    container.removeClass('ks-loading');
+                    container.html(data);
+                }
             }
 
         })
@@ -132,7 +135,9 @@ KISSY.add('shis/history', function (S, surl) {
     };
 
     var shis = {
-        init: init
+        init: init,
+        setLoadingCls: setLoadingCls,
+        setLoadingMsg: setLoadingMsg
     };
 
     return shis;
