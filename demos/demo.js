@@ -1,13 +1,13 @@
 ;
 (function (S) {
-    var $ = S.all;
-    var Event = S.Event;
+//    var $ = S.all;
+//    var Event = S.Event;
 
-    var isSupportedState = window.history && window.history.pushState && window.history.replaceState && !navigator.userAgent.match(/(iPod|iPhone|iPad|WebApps\/.+CFNetwork)/);
+//    var isSupportedState = window.history && window.history.pushState && window.history.replaceState && !navigator.userAgent.match(/(iPod|iPhone|iPad|WebApps\/.+CFNetwork)/);
 
-    var filter = function (id) {
-        return $('#bpf_' + id);
-    };
+//    var filter = function (id) {
+//        return $('#bpf_' + id);
+//    };
 
     KISSY.config({
         packages:[
