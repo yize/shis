@@ -1,0 +1,4 @@
+shis
+====
+
+pushState and hashchange
