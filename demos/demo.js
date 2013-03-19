@@ -13,15 +13,15 @@
         packages:[
             {
                 name:"shis", //包名
-                tag:"20110323", //时间戳, 添加在动态脚本路径后面, 用于更新包内模块代码
+                tag:new Date().getTime(), //时间戳, 添加在动态脚本路径后面, 用于更新包内模块代码
                 path:"../src/" //包对应路径, 相对路径指相对于当前页面路径
             }
         ]
     });
 
-    KISSY.use('shis/history', function (S, shis) {
+    KISSY.use('shis/bigpipe', function (S, bp) {
 
-        shis.init();
+        bp.init();
 //        $('body').all('a').on('click', function (ev) {
 //
 //            var target = $(ev.currentTarget);

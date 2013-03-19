@@ -47,8 +47,9 @@ KISSY.add('shis/url',function(S){
     var setQuery = function (query){
         var pquery = KISSY.unparam(query);
         var oldquery = getUrl().search?getUrl().search.substr(1):'';
-
     };
+
+
 
     var url = {
         parse:parse,
