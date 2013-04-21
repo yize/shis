@@ -7,6 +7,11 @@ KISSY.add('shis/history', function (S, surl) {
 
     var isSame = surl.isSame;
 
+    /**
+     * 写入history保存
+     * @param url(页面地址)
+     * @param callback(写入以后的回调)
+     */
     var push = function (url,callback) {
         var l = surl.getUrl().pathname;
         if (isSupportState) {
@@ -14,7 +19,6 @@ KISSY.add('shis/history', function (S, surl) {
             if (!isSame(l, url)) {
                 history.pushState({url: url}, null, url);
             }
-//            handle(url);
             callback && callback(url);
         } else {
             if (!isSame(l, url)) {

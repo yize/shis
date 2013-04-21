@@ -7,8 +7,40 @@
 
 KISSY.add('shis/bigpipe', function (S, his) {
 
+    console.log(this);
     var $ = S.all;
     var container;
+
+
+
+    var init = function () {
+        //监听XHR事件
+        listenXhr();
+        //绑定事件
+        bindEvent();
+    };
+
+    var ajaxRec = [];
+
+    var listenXhr = function () {
+        //监测所有的ajax请求
+        S.io.on("start", function (ev) {
+            ajaxRec.push(ev);
+        });
+
+        S.log('history.js:开始监听所有Xhr请求');
+    };
+
+    var abortXhr = function () {
+        S.each(ajaxRec, function (rec) {
+            if (rec && rec.xhr) {
+                S.log(rec.xhr, 'abort');
+                rec.xhr.abort();
+            }
+        });
+        //请求abort掉以后,清空ajaxRec
+        ajaxRec = [];
+    };
 
     var bindEvent = function () {
         $(document.body).on('click', function (ev) {
@@ -38,12 +70,6 @@ KISSY.add('shis/bigpipe', function (S, his) {
         }
     };
 
-    var init = function () {
-        listenXhr();
-        bindEvent();
-    };
-
-
     var LOADINGCLS = 'ks-loading';
     var LOADINGMSG = '<p>正在加载中，请稍候...</p>';
 
@@ -64,30 +90,9 @@ KISSY.add('shis/bigpipe', function (S, his) {
         }, 100);
         callback && callback.call(this);
     };
-    var ajaxRec = [];
 
-    var listenXhr = function () {
-        //监测所有的ajax请求
-        S.io.on("start", function (ev) {
-            ajaxRec.push(ev);
-        });
+    var urlMap = {
 
-        console.log('history.js:开始监听所有Xhr请求');
-    };
-
-    var abortXhr = function () {
-        S.each(ajaxRec, function (rec) {
-            if (rec && rec.xhr) {
-                console.log(rec.xhr, 'abort');
-                rec.xhr.abort();
-            }
-        });
-        //请求abort掉以后,清空ajaxRec
-        ajaxRec = [];
-    };
-
-    var findAjaxUrl = function (url) {
-        return url;
     };
 
     var getCss = function(){
@@ -136,7 +141,7 @@ KISSY.add('shis/bigpipe', function (S, his) {
                         loadingTimer.cancel();
                     })();
                     try {
-                        container.removeClass('ks-loading');
+                        container.removeClass(LOADINGCLS);
                         debugger;
                         container.html(data);
                     } catch (e) {
